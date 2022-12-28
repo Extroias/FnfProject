@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <SDL.h>
+#include <tracy/Tracy.hpp>
 #include "RendererThread.h"
 #include "InputManager.h"
 
@@ -18,8 +19,11 @@ private:
 	InputManager* manager;
 
 public:
+    static Application* App;
 	Application();
+	~Application();
 	int Run();
+	InputManager* GetInputManager() { return manager; }
 };
 #endif //Application_H	
 

@@ -1,4 +1,5 @@
 #include "RendererThread.h"
+#include "Application.h"
 RendererThread::RendererThread(SDL_Window* window)
 {
 	this->window = window;
@@ -12,6 +13,7 @@ RendererThread::~RendererThread()
 {
 	SDL_DestroyRenderer(this->renderer);
 	SDL_DestroyWindow(this->window);
+	delete object;
 }
 void RendererThread::ThreadTask()
 {
@@ -22,16 +24,20 @@ void RendererThread::ThreadTask()
 
 	SDL_GL_MakeCurrent(window, context);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	tracy::SetThreadName("Rendering");
 
 	while (!Quit)
 	{
 		auto start = std::chrono::steady_clock::now();
-
-		object->Render(renderer, delta);
-		SDL_RenderPresent(renderer);
-
+		{
+			ZoneScoped;
+			FrameMarkNamed("RendererThread");
+			Application::App->GetInputManager()->ReleaseInputs();
+			object->Render(renderer, delta);
+			SDL_RenderPresent(renderer);
+		}
 		std::this_thread::sleep_until(nextFrame);
-		nextFrame += frames{ 1 };
+		nextFrame = std::chrono::steady_clock::now() + frames(1) ;
 		std::chrono::duration<double> duration = std::chrono::steady_clock::now() - start;
 		delta = duration.count();
 	}

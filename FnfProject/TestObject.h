@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 #include <cmath>
+#include <tracy/Tracy.hpp>
+#include "InputManager.h"
 
 class TestObject
 {
@@ -11,6 +13,7 @@ public:
 	~TestObject();
 
 	void Render(SDL_Renderer* renderer, double delta);
+	
 
 private:
 
@@ -18,8 +21,10 @@ private:
 	float radius;
 	int offsetX;
 	int offsetY;
-	int x;
-	int y;
+	double x;
+	double y;
+	int axisX;
+	int axisY;
 	SDL_Rect square;
 
 

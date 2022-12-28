@@ -1,12 +1,19 @@
 #include "Application.h"
+
+Application* Application::App = nullptr;
 Application::Application()
 {
+	App = this;
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
-	thread = new RendererThread(window);
 	manager = new InputManager();
-	
+	thread = new RendererThread(window);
+}
+Application::~Application()
+{
+	delete thread;
+	delete manager;
 }
 int Application::Run()
 {
@@ -18,12 +25,15 @@ int Application::Run()
 	auto nextFrame = std::chrono::steady_clock::now() + frames{ 0 };
 	while (quit == false) 
 	{ 
-		while (SDL_PollEvent(&e))
-		{ 
-			if (e.type == SDL_QUIT) quit = true;
-		} 
-		manager->TakeSnapshot();
-
+		{
+			ZoneScoped;
+			FrameMark;
+			while (SDL_PollEvent(&e))
+			{
+				if (e.type == SDL_QUIT) quit = true;
+			}
+			manager->TakeSnapshot();
+		}
 		std::this_thread::sleep_until(nextFrame);
 		nextFrame = std::chrono::steady_clock::now() + frames{ 1 };
 	}

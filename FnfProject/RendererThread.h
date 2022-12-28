@@ -2,8 +2,11 @@
 #define RendererThread_H
 
 #include <SDL.h>
+#include <tracy/Tracy.hpp>
+#include <common/TracySystem.hpp>
 #include <thread>
 #include "TestObject.h"
+#include "InputManager.h"
 
 class RendererThread
 {
