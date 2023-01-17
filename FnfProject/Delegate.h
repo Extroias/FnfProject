@@ -1,53 +1,53 @@
 #ifndef DELEGATE_H
 #define DELEGATE_H
 
+#include <tuple>
+#include <functional>
+#include <typeinfo>
+
 template <typename... Params>
 class Delegate
 {
 protected:
   void *object = nullptr;
+  const std::type_info& type;
   virtual bool IsEqual (const Delegate<Params...> &other) const {return false;} 
+
+  Delegate(const std::type_info& type) : type(type) {};
 
 public:
     virtual void operator()(Params...) = 0;
     virtual Delegate<Params...>* clone() const = 0;
   friend bool operator==(const Delegate<Params...> &del1, const Delegate<Params...> &del2)
   {
-    return del1.object == del2.object && typeid(del1) == typeid(del2) && del1.IsEqual(del2);
+    return del1.object == del2.object && del1.type == del2.type && del1.IsEqual(del2);
   }
   void* getObject() { return object; }
-  Delegate(){}
+  virtual ~Delegate() = default;
   
   template<typename... Args>
   class General;
-  template<typename... Args>
-  General(std::function<void(Params..., Args...)> func, Args... args) -> General<Args...>;
   template <class Object, typename... Args>
   class Member;
 };
-
-template<typename... Args>
-using GeneralDelegate = Delegate<Args...>::template General;
 
 template <typename... Params>
 template <typename... Args>
 class Delegate<Params...>::General : public Delegate<Params...>
 {
   private:
-  std::shared_ptr<std::function<void(Params..., Args...)>> func;
+  const std::shared_ptr<std::function<void(Params..., Args...)>> func;
   std::tuple<Args...> args;
   bool IsEqual(const Delegate<Params...> &other) const override
   {
-    const General &obj = static_cast<const General &>(other);
+    auto obj = static_cast<const General &>(other);
     return func == obj.func && args == obj.args;
   }
 
 public:
-  General(std::function<void(Params..., Args...)> func, Args... args) : args(args...)
-  {
-    this->func = std::make_shared<std::function<void(Params..., Args...)>>(func);
-  }
+  General(std::function<void(Params..., Args...)> func, Args... args) : Delegate(typeid(General)), args(args...),func(std::make_shared<std::function<void(Params..., Args...)>>(func)){ }
   General(){}
+  virtual ~General() = default;
   Delegate<Params...>* clone() const override
   {
     return new General<Args...>(*this);
@@ -63,26 +63,23 @@ template <class Object, typename... Args>
 class Delegate<Params...>::Member : public Delegate<Params...>
 {
  private:
-  void (Object::*fp)(Params..., Args...);
+  const void (Object::*fp)(Params..., Args...);
   std::tuple<Args...> args;
   bool IsEqual(const Delegate<Params...> &other) const override
   {
-    const Member &obj = static_cast<const Member &>(other);
+    auto obj = static_cast<const Member &>(other);
     return fp == obj.fp && args == obj.args;
   }
    
 public:
   void operator()(Params... params) override
   {
-    Object* obj = static_cast<Object*>(object);
+    auto obj = static_cast<Object*>(object);
     std::apply(fp,std::tuple_cat(std::make_tuple(obj),std::make_tuple(params...),args));
   }
-  Member(void (Object::*fp)(Params..., Args...), Object* objectPtr, Args... args) : args(args...)
-  {
-     this->object = objectPtr;
-     this->fp = fp;
-  }
+  Member(void (Object::*fp)(Params..., Args...), Object* objectPtr, Args... args) : Delegate(typeid(Member)),args(args...), fp(fp), object(objectPtr){ }
   Member(){}
+  virtual ~Member() = default;
   Delegate<Params...>* clone() const override
   {
     return new Member<Object,Args...>(*this);

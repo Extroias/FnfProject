@@ -5,8 +5,11 @@
 #include <thread>
 #include <SDL.h>
 #include <tracy/Tracy.hpp>
+
 #include "RendererThread.h"
 #include "InputManager.h"
+#include "GameObject.h"
+#include "TestComponent.h"
 
 class Application
 {
@@ -18,12 +21,20 @@ private:
 	RendererThread* thread;
 	InputManager* manager;
 
+	std::vector<MainPtr<GameObject>> gameObjects;
+
+	void AddGameObject(GameObject* object);
+	friend GameObject::GameObject(std::string name, Vector2 position);
+
 public:
     static Application* App;
 	Application();
 	~Application();
 	int Run();
+
+	std::vector<MainPtr<GameObject>>& GetGameObjects() { return gameObjects; }
 	InputManager* GetInputManager() { return manager; }
+	RendererThread* GetRendererThread() { return thread; }
 };
 #endif //Application_H	
 

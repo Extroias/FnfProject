@@ -9,7 +9,7 @@
 
 #include "Event.h"
 
-using milliseconds = std::chrono::milliseconds;
+using milliseconds = std::chrono::duration<double, std::milli>;
 
 enum class InputState
 {
@@ -20,12 +20,14 @@ enum class InputState
 
 struct InputEvent
 {
-	InputEvent(SDL_Scancode code) :code(code){}
+	InputEvent(SDL_Scancode code) :code(code){
+		OnStay.AddListener(MakeDelegate(std::function([&]() {})));
+	}
 
 	CachedEvent<milliseconds> OnPressed;
 	CachedEvent<milliseconds> OnRelease;
 	Event<> OnStay;
-
+	void TestFunc(){}
 	void ProcessInput(Uint8  input, milliseconds time)
 	{
 		if (currentlyPressed && !input)
@@ -49,7 +51,6 @@ class InputManager
 {
 public:
 	InputManager();
-
 	void TakeSnapshot();
 	void ReleaseInputs();
 

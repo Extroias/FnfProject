@@ -1,6 +1,8 @@
-#include "TestObject.h"
+#include "TestComponent.h"
 #include "Application.h"
-TestObject::TestObject() : x(0), y(0), counter(0.0f), radius(180.0f), offsetX(240), offsetY(180)
+#include "Time.h"
+
+TestComponent::TestComponent()
 {
 	this->square = { 60, 60, 60, 60 };
 	axisX = 0;
@@ -18,21 +20,21 @@ TestObject::TestObject() : x(0), y(0), counter(0.0f), radius(180.0f), offsetX(24
 	Application::App->GetInputManager()->AddDelegate(MakeDelegate<1>(std::function([this](milliseconds m) {	axisY = -1;})), InputState::OnPressed, SDLK_w);
 	Application::App->GetInputManager()->AddDelegate(MakeDelegate<1>(std::function([this](milliseconds m) {	axisY = 1;})), InputState::OnPressed, SDLK_s);
 }
-TestObject::~TestObject()
-{
-
-}
-void TestObject::Render(SDL_Renderer* renderer, double delta)
+void TestComponent::Render(SDL_Renderer* renderer)
 {
 	ZoneScoped;
-	x += delta * 30.0 * (double)axisX;
-	y += delta * 30.0 * (double)axisY;
-	square.x = (int)x;
-	square.y = (int)y;
+	time += Time::delta();
+	gameObject->transform.SetPosition(gameObject->transform.GetPosition() + Vector2(Time::delta() * 30.0f * axisX, Time::delta() * 30.0f * axisY));
+	
+	square.x = (int)gameObject->transform.GetPosition().x;
+	square.y = (int)gameObject->transform.GetPosition().y;
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_RenderClear(renderer);
 
 	SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
 	SDL_RenderDrawRect(renderer, &this->square);
+    
+	gameObject->GetComponent<Testerface>()->Test();
+	if (time > 7) gameObject->RemoveComponent(thisptr);
 }

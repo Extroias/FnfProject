@@ -31,19 +31,19 @@ protected:
 
 public:
 	Event() {};
-	~Event() {};
+	~Event() { Clear(); };
 
 	void AddListener(const Delegate<>& delegate)
 	{
 		ZoneScoped;
 		std::lock_guard lock(staticMutex);
-		Callback.emplace_back(std::unique_ptr<Delegate<>>(delegate.clone()));
+		Callback.emplace_back(delegate.clone());
 	}
 	void AddDynamicListener(const Delegate<Params...>& delegate)
 	{
 		ZoneScoped;
 		std::lock_guard lock(dynamicMutex);
-		DynamicCallback.emplace_back(std::unique_ptr<Delegate<Params...>>(delegate.clone()));
+		DynamicCallback.emplace_back(delegate.clone());
 	}
 	virtual void RemoveListener(const Delegate<>& delegate)
 	{
@@ -130,8 +130,8 @@ public:
 	}
 	void Clear()
 	{
-		std::lock_guard<std::mutex> lock(dynamicMutex);
-		std::lock_guard<std::mutex> lock2(staticMutex);
+		std::lock_guard lock(dynamicMutex);
+		std::lock_guard lock2(staticMutex);
 		Callback.clear();
 		DynamicCallback.clear();
 	}

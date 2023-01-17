@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Time.h"
 
 Application* Application::App = nullptr;
 Application::Application()
@@ -42,4 +43,8 @@ int Application::Run()
 	SDL_Quit();
 
 	return 0;
+}
+void Application::AddGameObject(GameObject* object)
+{
+	gameObjects.push_back(MainPtr<GameObject>(object));
 }

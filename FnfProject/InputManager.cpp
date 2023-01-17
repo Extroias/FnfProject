@@ -6,11 +6,10 @@ InputManager::InputManager()
 void InputManager::TakeSnapshot()
 {
 	ZoneScoped;
-	auto time = std::chrono::duration_cast<milliseconds>(std::chrono::steady_clock::now().time_since_epoch());
+	milliseconds time = std::chrono::steady_clock::now().time_since_epoch();
 	std::vector<Uint8> snapshot;
 	for (int i = 0; i < length; i++)
 		snapshot.push_back(states[i]);
-
 
 	for (auto& event : events)
 	{
