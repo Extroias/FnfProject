@@ -7,24 +7,28 @@
 #include <memory>
 #include <concepts>
 
-#include "Shapes.h"
+#include "Util/Shapes.h"
+#include "Util/GamePointers.h"
 #include "Transform.h"
-#include "GamePointers.h"
 #include "Component.h"
 
+class Renderer;
 class GameObject
 {
 private:
 	std::string name;
 
 	std::vector<MainPtr<Component>> components;
+	Renderer* renderer;
+
 public:
 
 	Transform transform;
 
 	GameObject(const std::string name, const Vector2 position);
 
-	void Update(SDL_Renderer* renderer);
+	void Update();
+	void SetRenderer(Renderer* renderer);
 
 	template<class Return>
 	WeakPtr<Return> GetComponent()

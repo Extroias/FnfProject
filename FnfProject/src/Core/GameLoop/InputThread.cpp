@@ -1,4 +1,4 @@
-#include "InputManager.h"
+#include "InputThread.h"
 InputManager::InputManager()
 {
 	states = SDL_GetKeyboardState(&length);

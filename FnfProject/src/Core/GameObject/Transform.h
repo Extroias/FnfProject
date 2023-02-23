@@ -4,7 +4,7 @@
 
 #include <mutex>
 
-#include "Shapes.h"
+#include "Util/Shapes.h"
 
 class Transform
 {
@@ -23,11 +23,8 @@ public:
 
 private:
 	Vector2 position;
-	std::mutex posMutex;
 	Vector2 scale;
-	std::mutex scaleMutex;
 	float rotation = 0;
-	std::mutex rotationMutex;
 };
 #endif //Transform_H	
 

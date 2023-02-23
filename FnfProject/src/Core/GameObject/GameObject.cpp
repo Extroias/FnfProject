@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "GameObject/GameObject.h"
 #include "Application.h"
 #include "Component.h"
 GameObject::GameObject(const std::string name, const Vector2 position) : name(name)
@@ -18,11 +18,10 @@ void GameObject::RemoveComponent(WeakPtr<Component>& component)
 {
 	std::erase(components, component);
 }
-void GameObject::Update(SDL_Renderer* renderer)
+void GameObject::Update()
 {
 	for (auto& component : components)
 	{
 		component->Update();
-		component->Render(renderer);
 	}
 }

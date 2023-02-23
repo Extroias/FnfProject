@@ -2,7 +2,7 @@
 #define Time_H
 
 #include <shared_mutex>
-#include "RendererThread.h"
+#include "GameLoop/RendererThread.h"
 
 using milliseconds = std::chrono::duration<double, std::milli>;
 
@@ -22,7 +22,7 @@ public:
 	static float delta(); //Time between frames in seconds, float
 	static milliseconds now(); //Time at the start of the frame
 
-	friend void RendererThread::SetTimings();
+	friend void UpdateThread::SetTimings();
 };
 
 #endif //Time_H	

@@ -1,6 +1,6 @@
 #include "RendererThread.h"
 #include "Application.h"
-#include "Time.h"
+#include "Util/Time.h"
 
 RendererThread::RendererThread(SDL_Window* window)
 {
@@ -35,6 +35,8 @@ void RendererThread::ThreadTask()
 			FrameMarkNamed("RendererThread");
 			Application::App->GetInputManager()->ReleaseInputs();
 			auto& gameObjects = Application::App->GetGameObjects();
+			SDL_SetRenderDrawColor(renderer, 0,0,0, 255);
+			SDL_RenderClear(renderer);
 			for (auto& gameObject : gameObjects)
 			{
 				gameObject->Update(renderer);

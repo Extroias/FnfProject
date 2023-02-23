@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <cmath>
 #include <tracy/Tracy.hpp>
-#include "InputManager.h"
+#include "GameLoop/InputThread.h"
 #include "Component.h"
 
 class Testerface
@@ -27,8 +27,6 @@ private:
 	float time = 0;
 	int axisX;
 	int axisY;
-	SDL_Rect square;
-
 
 };
 

@@ -5,9 +5,10 @@
 #include <tracy/Tracy.hpp>
 #include <common/TracySystem.hpp>
 #include <thread>
-#include "GameObject.h"
-#include "InputManager.h"
-#include "TestComponent.h"
+
+#include "GameObject/GameObject.h"
+#include "InputThread.h"
+#include "GameObject/TestComponent.h"
 
 class RendererThread
 {

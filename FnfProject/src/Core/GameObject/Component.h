@@ -4,7 +4,7 @@
 #include <typeinfo>
 #include <SDL.h>
 
-#include "GamePointers.h"
+#include "Util/GamePointers.h"
 
 class GameObject;
 class Component
@@ -21,7 +21,6 @@ public:
 	GameObject* GetGameObject() { return gameObject; }
 
 	virtual void Update() {};
-	virtual void Render(SDL_Renderer* renderer){}
 
 	friend GameObject;
 };

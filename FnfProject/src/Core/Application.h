@@ -6,10 +6,10 @@
 #include <SDL.h>
 #include <tracy/Tracy.hpp>
 
-#include "RendererThread.h"
-#include "InputManager.h"
-#include "GameObject.h"
-#include "TestComponent.h"
+#include "GameLoop/RendererThread.h"
+#include "GameLoop/InputThread.h"
+#include "GameObject/GameObject.h"
+#include "GameObject/TestComponent.h"
 
 class Application
 {

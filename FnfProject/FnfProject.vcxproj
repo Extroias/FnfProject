@@ -103,15 +103,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExternalIncludePath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\include;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\lib\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\FnfProject\src\Core;C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\FnfProject\src\Core;C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
     <ExternalIncludePath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\include;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Tracy|x64'">
-    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Usuario\Desktop\Programming\FnfProject\FnfProject\src\Core;C:\Users\Usuario\Desktop\Programming\FnfProject\tracy\public;$(IncludePath)</IncludePath>
     <ExternalIncludePath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\include;$(ExternalIncludePath)</ExternalIncludePath>
     <LibraryPath>C:\Users\Usuario\Desktop\All SDL2\SDL2-2.26.1\SDL2-2.26.1\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -212,30 +212,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\tracy\public\TracyClient.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="RendererThread.cpp" />
-    <ClCompile Include="Shapes.cpp" />
-    <ClCompile Include="TestComponent.cpp" />
-    <ClCompile Include="Time.cpp" />
-    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="src\Core\GameObject\SquareRenderer.cpp" />
+    <ClCompile Include="src\Core\GameObject\Component.cpp" />
+    <ClCompile Include="src\Core\GameObject\GameObject.cpp" />
+    <ClCompile Include="src\Core\GameLoop\InputThread.cpp" />
+    <ClCompile Include="src\Core\GameLoop\Main.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\GameObject\Renderer.cpp" />
+    <ClCompile Include="src\Core\GameLoop\RendererThread.cpp" />
+    <ClCompile Include="src\Core\Util\Shapes.cpp" />
+    <ClCompile Include="src\Core\GameObject\TestComponent.cpp" />
+    <ClCompile Include="src\Core\Util\Time.cpp" />
+    <ClCompile Include="src\Core\GameObject\Transform.cpp" />
+    <ClCompile Include="src\Core\GameLoop\UpdateThread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Delegate.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GamePointers.h" />
-    <ClInclude Include="InputManager.h" />
-    <ClInclude Include="RendererThread.h" />
-    <ClInclude Include="Shapes.h" />
-    <ClInclude Include="TestComponent.h" />
-    <ClInclude Include="Time.h" />
-    <ClInclude Include="Transform.h" />
+    <ClInclude Include="src\Core\GameObject\SquareRenderer.h" />
+    <ClInclude Include="src\Core\Application.h" />
+    <ClInclude Include="src\Core\GameObject\Component.h" />
+    <ClInclude Include="src\Core\Util\Delegate.h" />
+    <ClInclude Include="src\Core\Util\Event.h" />
+    <ClInclude Include="src\Core\GameObject\GameObject.h" />
+    <ClInclude Include="src\Core\Util\GamePointers.h" />
+    <ClInclude Include="src\Core\GameLoop\InputThread.h" />
+    <ClInclude Include="src\Core\GameObject\Renderer.h" />
+    <ClInclude Include="src\Core\GameLoop\RendererThread.h" />
+    <ClInclude Include="src\Core\Util\Shapes.h" />
+    <ClInclude Include="src\Core\GameObject\TestComponent.h" />
+    <ClInclude Include="src\Core\Util\Time.h" />
+    <ClInclude Include="src\Core\GameObject\Transform.h" />
+    <ClInclude Include="src\Core\GameLoop\UpdateThread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

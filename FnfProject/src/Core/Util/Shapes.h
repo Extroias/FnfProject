@@ -108,6 +108,12 @@ typedef struct Rect
     Vector2 min(){return position-size/2;}
     Vector2 max(){return position+size/2;}
     //GPU_Rect ToSDLGPU();
+    SDL_Rect ToSDLRect()
+    {
+        SDL_Rect rect;
+        rect.x = position.x; rect.y = position.y; rect.w = size.x; rect.h = size.y;
+        return rect;
+    }
 
     bool operator== (Rect rect);
 }Rect;
