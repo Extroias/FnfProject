@@ -1,0 +1,1 @@
+For fun project I did some years ago, decided to make it public now as a good reminder of where I begun. I honestly don't remember much of it, but to compile this you will need to open it in Visual Studio.
